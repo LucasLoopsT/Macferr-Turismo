@@ -1,0 +1,19 @@
+# Dependências e build
+node_modules/
+dist/
+
+# Segredos
+.env
+.env.*
+!.env.example
+
+# Dados de runtime (destinos.json, backups e uploads gravados pela API).
+# Em produção ficam no disco persistente (DATA_DIR), nunca no repositório.
+/data/
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+.DS_Store
+
+# Versionados de propósito: seed/destinos.json e seed/uploads/ (dados iniciais, se houver)

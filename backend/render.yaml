@@ -1,0 +1,33 @@
+# Blueprint opcional para o Render (https://render.com/docs/blueprint-spec).
+# ATENÇÃO: disco persistente exige instância paga (starter ou superior).
+# No plano gratuito o sistema de arquivos é efêmero e os dados se perdem a cada deploy/reinício.
+services:
+  - type: web
+    name: macferr-backend
+    runtime: node
+    plan: starter
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    disk:
+      name: macferr-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /var/data
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      # 2FA por e-mail (Resend): obrigatórios em produção
+      - key: RESEND_API_KEY
+        sync: false
+      - key: ADMIN_2FA_EMAIL
+        sync: false
