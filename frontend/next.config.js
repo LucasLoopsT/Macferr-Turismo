@@ -2,12 +2,10 @@
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
+  basePath: '/Macferr-Turismo',
   images: {
-    unoptimized: true, // obrigatório para export estático
+    unoptimized: true,
   },
-  // Se seu repo GitHub se chamar "macferr" e não for o root:
-  // basePath: '/macferr',
-  // assetPrefix: '/macferr/',
 };
 
 module.exports = nextConfig;
