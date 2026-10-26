@@ -22,12 +22,28 @@ export interface Config {
   logRequests: boolean;
   /** 2FA por e-mail (Resend). Obrigatório em produção; opcional em desenvolvimento. */
   twoFactor: { enabled: boolean; apiKey: string; email: string; from: string };
+  /**
+   * Destinos salvos no GitHub (arquivo JSON do repositório). Obrigatório em produção.
+   * null = usa o arquivo local em DATA_DIR (desenvolvimento e testes).
+   */
+  github: GitHubConfig | null;
+}
+
+export interface GitHubConfig {
+  token: string;
+  owner: string;
+  repo: string;
+  branch: string;
+  path: string;
 }
 
 // Valores copiados do .env.example não podem ir para produção por engano.
 const PLACEHOLDER = /^(troque|change[-_ ]?me|exemplo|example)/i;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const REMETENTE_PADRAO = 'MacFerr Turismo <onboarding@resend.dev>';
+const GITHUB_REPO_PADRAO = 'LucasLoopsT/Macferr-Turismo';
+const GITHUB_BRANCH_PADRAO = 'main';
+const GITHUB_PATH_PADRAO = 'backend/seed/destinos.json';
 
 /**
  * Lê e valida as variáveis de ambiente. Função pura (recebe o objeto de ambiente),
@@ -121,6 +137,30 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   if (email2fa && !EMAIL.test(email2fa)) problems.push('ADMIN_2FA_EMAIL não parece um e-mail válido.');
   if (!/@/.test(from)) problems.push('RESEND_FROM inválido. Use o formato "Nome <email@dominio.com>".');
 
+  // Destinos no GitHub
+  const ghToken = get('GITHUB_TOKEN');
+  const ghRepo = get('GITHUB_REPO') || GITHUB_REPO_PADRAO;
+  const ghBranch = get('GITHUB_BRANCH') || GITHUB_BRANCH_PADRAO;
+  const ghPath = get('GITHUB_DESTINOS_PATH') || GITHUB_PATH_PADRAO;
+  let github: GitHubConfig | null = null;
+  if (prod && !ghToken) {
+    problems.push('GITHUB_TOKEN é obrigatório em produção (token do GitHub com "Contents: Read and write" no repositório; é onde os destinos são salvos para o site ler).');
+  }
+  if (ghToken) {
+    const antes = problems.length;
+    const repoOk = /^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/.exec(ghRepo);
+    const branchOk = /^[A-Za-z0-9._\/-]+$/.test(ghBranch) && !ghBranch.includes('..') && !ghBranch.startsWith('/') && !ghBranch.endsWith('/');
+    const pathOk = /^[A-Za-z0-9._\/-]+\.json$/.test(ghPath) && !ghPath.split('/').some((seg) => seg === '..' || seg === '');
+    if (PLACEHOLDER.test(ghToken)) problems.push('GITHUB_TOKEN ainda está com o valor de exemplo do .env.example. Crie um token no GitHub (Settings > Developer settings > Fine-grained tokens).');
+    else if (/\s/.test(ghToken) || ghToken.length < 20) problems.push('GITHUB_TOKEN parece inválido (curto demais ou com espaços). Copie o token inteiro, sem aspas.');
+    if (!repoOk) problems.push('GITHUB_REPO inválido. Use o formato dono/repositorio (ex.: LucasLoopsT/Macferr-Turismo).');
+    if (!branchOk) problems.push('GITHUB_BRANCH inválida (ex.: main).');
+    if (!pathOk) problems.push('GITHUB_DESTINOS_PATH inválido. Use o caminho do arquivo .json dentro do repositório, sem barra no início (ex.: backend/seed/destinos.json).');
+    if (problems.length === antes && repoOk) {
+      github = { token: ghToken, owner: repoOk[1], repo: repoOk[2], branch: ghBranch, path: ghPath };
+    }
+  }
+
   const seedRaw = get('SEED_FILE');
   const logRaw = get('LOG_REQUESTS').toLowerCase();
   const logRequests = logRaw ? logRaw === 'true' : nodeEnv !== 'test';
@@ -136,5 +176,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     seedFile: seedRaw ? path.resolve(seedRaw) : null,
     logRequests,
     twoFactor: { enabled: Boolean(resendKey && email2fa), apiKey: resendKey, email: email2fa, from },
+    github,
   };
 }

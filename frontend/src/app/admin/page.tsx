@@ -211,7 +211,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
           )}
 
           {!naCodigo && (
-            <a href="/" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-all duration-200 hover:text-violet-700">
+            <a href="/Macferr-Turismo" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-all duration-200 hover:text-violet-700">
               <IconArrowLeft size={16} />Voltar ao site
             </a>
           )}
@@ -508,7 +508,7 @@ function Dashboard({ token, onLogout }: { token: string; onLogout: () => void })
             <span className="hidden rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700 sm:inline">Painel</span>
           </div>
           <div className="flex items-center gap-1">
-            <a href="/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-slate-100">
+            <a href="/Macferr-Turismo" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-slate-100">
               <IconExternal size={16} /><span className="hidden sm:inline">Ver site</span>
             </a>
             <button type="button" onClick={onLogout} className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-slate-100">

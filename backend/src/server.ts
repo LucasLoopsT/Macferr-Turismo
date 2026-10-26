@@ -41,7 +41,7 @@ async function main() {
   const app = createApp(config, services);
   const server = app.listen(config.port, () => {
     console.log(`API no ar na porta ${config.port} (${config.nodeEnv}).`);
-    console.log(`Dados em: ${services.destinos.file}`);
+    console.log(`Destinos em: ${services.destinos.file}${services.destinos.remoto ? ' (GitHub)' : ''}`);
     console.log(`Uploads em: ${config.uploadDir}`);
     console.log(
       services.twoFactor

@@ -1,4 +1,4 @@
-const API_URL = 'https://macferr-turismo.onrender.com';
+export const API_URL = 'https://macferr-turismo.onrender.com';
 
 export type StatusViagem = 'Rascunho' | 'Disponivel' | 'Esgotada' | 'Finalizada';
 

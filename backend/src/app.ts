@@ -5,20 +5,25 @@ import type { Config } from './config/env';
 import { createApiRouter } from './routes';
 import { createAuthService } from './services/authService';
 import { createDestinoService } from './services/destinoService';
+import { createDestinoStore } from './services/destinoStoreFactory';
+import type { DestinoStore } from './services/destinoStore';
 import { createImageService } from './services/imageService';
 import { createResendMailer, type Mailer } from './services/mailService';
 import { createTwoFactorService } from './services/twoFactorService';
 import { errorHandler, notFound } from './middlewares/errorHandler';
 import { requestLogger } from './middlewares/requestLogger';
 
-/** `overrides.mailer` permite trocar o envio de e-mail (testes). Em produção usa o Resend. */
-export function createServices(config: Config, overrides: { mailer?: Mailer } = {}) {
+/**
+ * `overrides.mailer` permite trocar o envio de e-mail e `overrides.store` o armazenamento dos destinos (testes).
+ * Em produção: Resend para o 2FA e o arquivo de destinos no GitHub.
+ */
+export function createServices(config: Config, overrides: { mailer?: Mailer; store?: DestinoStore } = {}) {
   const mailer =
     overrides.mailer ?? (config.twoFactor.enabled ? createResendMailer({ apiKey: config.twoFactor.apiKey, from: config.twoFactor.from }) : null);
 
   return {
     auth: createAuthService({ adminPassword: config.adminPassword, jwtSecret: config.jwtSecret, expiresIn: config.jwtExpiresIn }),
-    destinos: createDestinoService({ dataDir: config.dataDir, seedFile: config.seedFile }),
+    destinos: createDestinoService({ store: overrides.store ?? createDestinoStore(config) }),
     images: createImageService({ uploadDir: config.uploadDir, publicBaseUrl: config.publicBaseUrl, maxBytes: config.maxUploadBytes }),
     /** null = 2FA desligado (só possível fora de produção). */
     twoFactor:

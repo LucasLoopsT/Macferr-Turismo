@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { fetchProximasDestinos, fetchDestinosRealizados, type Destino } from '@/lib/api';
+import { type Destino } from '@/lib/api';
+import { fetchDestinosPublicados } from '@/lib/destinosGithub';
 import { Navbar, Footer, WAFloat } from '@/components/SiteChrome';
 import { EMAIL, WHATSAPP_URL, WHATSAPP_TEXTO, INSTAGRAM_URL, INSTAGRAM_USER, ENDERECO, CIDADE, MAPS_URL } from '@/lib/contato';
 import hero from '../imgs/hero.jpeg';
@@ -44,11 +45,11 @@ function Hero() {
           Da Baixada Santista para o mundo. A MacFerr Turismo cuida de cada detalhe da sua viagem com carinho e experiência.
         </p>
         <div className="z-10 flex gap-4 justify-center flex-wrap">
-          <a href="#destinos" className="px-9 py-4 rounded-full text-white font-bold text-sm tracking-wide transition-all hover:brightness-110 hover:-translate-y-1"
+          <a href="/Macferr-Turismo/#destinos" className="px-9 py-4 rounded-full text-white font-bold text-sm tracking-wide transition-all hover:brightness-110 hover:-translate-y-1"
             style={{ background: 'linear-gradient(135deg, #a65df8, #6f35f7)', boxShadow: '0 8px 25px rgba(157, 53, 255, 0.4)' }}>
             Ver destinos ✈️
           </a>
-          <a href="#contato" className="px-9 py-4 rounded-full text-white font-semibold text-sm border-2 transition-all hover:bg-white/10"
+          <a href="/Macferr-Turismo/#contato" className="px-9 py-4 rounded-full text-white font-semibold text-sm border-2 transition-all hover:bg-white/10"
             style={{ borderColor: 'rgba(255,255,255,.5)' }}>
             Solicitar orçamento
           </a>
@@ -147,7 +148,7 @@ function CardViagem({ d }: { d: Destino }) {
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-2xl font-bold leading-snug text-slate-900">
           <a
-            href={`/viagem/?id=${encodeURIComponent(d.id)}`}
+            href={`/Macferr-Turismo/viagem/?id=${encodeURIComponent(d.id)}`}
             className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none"
           >
             {d.titulo}
@@ -191,11 +192,9 @@ function Destinos() {
     setLoading(true);
     setErro('');
 
-    Promise.all([
-      fetchProximasDestinos(),
-      fetchDestinosRealizados(),
-    ])
-      .then(([proximas, realizadas]) => {
+    // Lê o destinos.json direto do GitHub (sem passar pelo backend do Render).
+    fetchDestinosPublicados()
+      .then(({ proximas, realizadas }) => {
         setProximasDestinos(proximas);
         setRealizadasDestinos(realizadas);
       })

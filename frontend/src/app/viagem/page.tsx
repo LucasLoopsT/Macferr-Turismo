@@ -2,7 +2,8 @@
 
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { fetchDestinos, type Destino } from '@/lib/api';
+import type { Destino } from '@/lib/api';
+import { fetchDestinosPublicados } from '@/lib/destinosGithub';
 import { Navbar, Footer, WAFloat } from '@/components/SiteChrome';
 import Carrossel from '@/components/Carrossel';
 import SafeImg from '@/components/SafeImg';
@@ -26,10 +27,23 @@ function Conteudo() {
   const carregar = useCallback(() => {
     setLoading(true);
     setErro('');
-    fetchDestinos()
-      // Rascunho não é público: o link de uma viagem ainda não publicada cai em "não encontrada".
-      .then((lista) => setViagem(lista.find((d) => d.id === id && d.status !== 'Rascunho') ?? null))
-      .catch(() => setErro('Não foi possível carregar a viagem.'))
+
+    // Busca os destinos diretamente do JSON publicado no GitHub,
+    // sem depender do backend do Render.
+    fetchDestinosPublicados()
+      .then(({ proximas, realizadas }) => {
+        const lista = [...proximas, ...realizadas];
+
+        // Rascunhos não são públicos.
+        const encontrada = lista.find(
+          (d) => d.id === id && d.status !== 'Rascunho',
+        );
+
+        setViagem(encontrada ?? null);
+      })
+      .catch(() => {
+        setErro('Não foi possível carregar a viagem.');
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -40,7 +54,7 @@ function Conteudo() {
   }, [viagem]);
 
   const voltar = (
-    <a href="/#destinos" className={btnSecundario}><IconArrowLeft size={16} />Ver todas as viagens</a>
+    <a href="/Macferr-Turismo/#destinos" className={btnSecundario}><IconArrowLeft size={16} />Ver todas as viagens</a>
   );
 
   if (loading) {
@@ -99,7 +113,7 @@ function Conteudo() {
       <section className="bg-slate-50 py-12 sm:py-16">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_340px] lg:gap-14 lg:px-8">
           <div className="min-w-0">
-            <a href="/#destinos" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-all duration-200 hover:text-violet-700">
+            <a href="/Macferr-Turismo/#destinos" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-all duration-200 hover:text-violet-700">
               <IconArrowLeft size={16} />Voltar às viagens
             </a>
             <h2 className="mt-6 font-display text-2xl font-bold text-slate-900">Sobre a viagem</h2>
