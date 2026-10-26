@@ -4,6 +4,8 @@ name: Deploy Next.js site to Pages
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "backend/seed/destinos.json"
   workflow_dispatch:
 
 permissions:
