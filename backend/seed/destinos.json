@@ -6,16 +6,24 @@
     "data": "Dezembro 2025",
     "viajantes": 18,
     "categoria": "Nacional",
-    "imagem": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80"
+    "imagem": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80",
+    "status": "Finalizada",
+    "preco": "",
+    "tags": [],
+    "fotos": []
   },
   {
     "id": "7d1a3c5e-4b2f-4a60-9f31-0c8e6a2b1d02",
-    "titulo": "Europa Clássica",
+    "titulo": "França Clássica",
     "descricao": "Paris, Veneza, Roma e Londres com guia brasileiro, hotéis centrais e tempo livre para passear.",
     "data": "Maio 2025",
     "viajantes": 24,
     "categoria": "Europa",
-    "imagem": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80"
+    "imagem": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80",
+    "status": "Finalizada",
+    "preco": "",
+    "tags": [],
+    "fotos": []
   },
   {
     "id": "7d1a3c5e-4b2f-4a60-9f31-0c8e6a2b1d03",
@@ -24,6 +32,10 @@
     "data": "Fevereiro 2025",
     "viajantes": 40,
     "categoria": "Cruzeiro",
-    "imagem": "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1000&q=80"
+    "imagem": "https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=1000&q=80",
+    "status": "Finalizada",
+    "preco": "",
+    "tags": [],
+    "fotos": []
   }
 ]
