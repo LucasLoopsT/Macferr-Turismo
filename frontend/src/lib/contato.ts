@@ -4,7 +4,7 @@ import type { StatusViagem } from '@/lib/api';
 export const WHATSAPP_NUMERO = '5513981211993';
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMERO}`;
 export const WHATSAPP_TEXTO = '(13) 98121-1993';
-export const EMAIL = 'contato@macferrturismo.com.br';
+export const EMAIL = 'macferrturismo@gmail.com';
 export const INSTAGRAM_URL = 'https://instagram.com/macferrturismo';
 export const INSTAGRAM_USER = '@macferrturismo';
 export const ENDERECO = 'Av. Brasil, Jardim Casqueiro, 395';

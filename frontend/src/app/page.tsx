@@ -388,7 +388,7 @@ function Galeria() {
 // ── Por que nós ────────────────────────────────────────────────────────────────
 function PorQueNos() {
   const pilares = [
-    { icon: '🏅', bg: 'rgba(255,107,53,.15)', title: 'Experiência', desc: 'Mais de 10 anos levando famílias e grupos para destinos incríveis com total segurança.' },
+    { icon: '🏅', bg: 'rgba(255,107,53,.15)', title: 'Experiência', desc: 'Mais de 30 anos levando famílias e grupos para destinos incríveis com total segurança.' },
     { icon: '📞', bg: 'rgba(0,180,216,.15)', title: 'Suporte Completo', desc: 'Acompanhamos você antes, durante e após a viagem. Sempre disponíveis para ajudar.' },
     { icon: '💰', bg: 'rgba(45,198,83,.15)', title: 'Melhores Preços', desc: 'Parcerias com as melhores companhias para garantir o custo-benefício ideal.' },
     { icon: '✨', bg: 'rgba(123,47,190,.15)', title: 'Personalização', desc: 'Cada viagem é única. Pacotes sob medida para o seu perfil e orçamento.' },
@@ -417,7 +417,7 @@ function PorQueNos() {
 
 // ── Horários ───────────────────────────────────────────────────────────────────
 function Horarios() {
-  const horarios: [string, string, boolean][] = [['Segunda a sexta', '09h às 18h', false], ['Sábado', '10h às 18h', false], ['Domingo', 'Fechado', true]];
+  const horarios: [string, string, boolean][] = [['Segunda a sexta', '10h às 19h', false], ['Sábado', '10h às 18h', false], ['Domingo', 'Fechado', true]];
   return (
     <section id="horarios" className="bg-white py-20 sm:py-28">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
