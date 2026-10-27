@@ -23,7 +23,11 @@
     "status": "Finalizada",
     "preco": "",
     "tags": [],
-    "fotos": []
+    "fotos": [
+      "https://static.todamateria.com.br/upload/fr/an/franca-og.jpg?class=ogImageSquare",
+      "https://blog.123milhas.com/wp-content/uploads/2023/04/franca-guia-de-turismo-cultura-gastronomia-e-mais-arco-do-triunfo-conexao123.jpg",
+      "https://www.simplesmenteparis.com/wp-content/uploads/2019/09/paris.jpg"
+    ]
   },
   {
     "id": "7d1a3c5e-4b2f-4a60-9f31-0c8e6a2b1d03",
